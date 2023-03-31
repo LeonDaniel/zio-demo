@@ -6,7 +6,7 @@ import java.io.IOException
 
 object Main extends ZIOAppDefault {
 
-  case class Config(server: String, port: Int)
+  private case class Config(server: String, port: Int)
 
   private val zioConfig: ZIO[Config, IOException, String] =
     for {

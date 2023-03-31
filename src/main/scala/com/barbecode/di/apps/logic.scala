@@ -1,4 +1,4 @@
-package com.barbecode.di
+package com.barbecode.di.apps
 
 import zio.*
 

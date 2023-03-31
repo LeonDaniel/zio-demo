@@ -1,6 +1,6 @@
-package com.barbecode.di
+package com.barbecode.di.apps
 
-import zio.{ ZIO, ZLayer }
+import zio.*
 
 trait Cache {
   def getUser(id: String): ZIO[Any, Throwable, User]

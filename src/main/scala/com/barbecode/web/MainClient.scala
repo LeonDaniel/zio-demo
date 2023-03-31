@@ -1,10 +1,10 @@
-package com.barbecode
+package com.barbecode.web
 
 import zio.*
 import zio.http.Client
 import zio.http.model.Headers
 
-object HelloWorldClient extends ZIOAppDefault:
+object MainClient extends ZIOAppDefault:
   val url = "http://localhost:8080/text"
 
   val request: ZIO[Client, Throwable, Unit] = for {

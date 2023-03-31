@@ -1,4 +1,4 @@
-package com.barbecode.basic
+package com.barbecode.web
 
 import zio.*
 import zio.test.*

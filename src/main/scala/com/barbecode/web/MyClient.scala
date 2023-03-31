@@ -1,6 +1,6 @@
-package com.barbecode.basic
+package com.barbecode.web
 
-import com.barbecode.HelloWorldClient.request
+import MainClient.request
 import zio.*
 import zio.http.Client
 
@@ -17,6 +17,6 @@ object MyClient {
     request
       .tapError(_ => Console.printLine("Failed request"))
       .retry(Schedule.exponential(10.milliseconds) && Schedule.recurs(5))
-      .orElse(Console.printLine("Console fallback") *> ZIO.succeed("Fallback"))
+      .orElse(Console.printLine("Console fallback").zipRight(ZIO.succeed("Fallback")))
       .provide(Client.default)
 }
