@@ -4,13 +4,15 @@ val zioConfigVersion      = "3.0.2"
 val zioLoggingVersion     = "2.1.11"
 val logbackClassicVersion = "1.4.6"
 val postgresqlVersion     = "42.5.4"
-val testContainersVersion = "0.40.11"
+val testContainersVersion = "0.10.0"
 val zioMockVersion        = "1.0.0-RC8"
 val zioHttpVersion        = "0.0.5"
 val quillVersion          = "4.6.0"
 
 lazy val root = (project in file("."))
+  .configs(IntegrationTest)
   .settings(
+    Defaults.itSettings,
     inThisBuild(
       List(
         organization := "com.barbecode",
@@ -19,17 +21,19 @@ lazy val root = (project in file("."))
     ),
     name           := "zio-demo",
     libraryDependencies ++= Seq(
-      "dev.zio" %% "zio"         % zioVersion,
-      "dev.zio" %% "zio-macros"  % zioVersion,
-      "dev.zio" %% "zio-http"    % zioHttpVersion,
+      "dev.zio" %% "zio"        % zioVersion,
+      "dev.zio" %% "zio-macros" % zioVersion,
+      "dev.zio" %% "zio-http"   % zioHttpVersion,
 
       // test
-      "dev.zio"      %% "zio-test"                        % zioVersion            % Test,
-      "dev.zio"      %% "zio-test-sbt"                    % zioVersion            % Test,
-      "dev.zio"      %% "zio-test-junit"                  % zioVersion            % Test,
-      "dev.zio"      %% "zio-mock"                        % zioMockVersion        % Test,
-      "com.dimafeng" %% "testcontainers-scala-postgresql" % testContainersVersion % Test,
-      "dev.zio"      %% "zio-test-magnolia"               % zioVersion            % Test,
+      "dev.zio" %% "zio-test"     % zioVersion     % Test,
+      "dev.zio" %% "zio-test-sbt" % zioVersion     % Test,
+      "dev.zio" %% "zio-mock"     % zioMockVersion % Test,
+
+      // it
+      "io.github.scottweaver" %% "zio-2-0-testcontainers-mysql" % testContainersVersion % IntegrationTest,
+      "io.github.scottweaver" %% "zio-2-0-testcontainers-kafka" % testContainersVersion % IntegrationTest,
+      "io.github.scottweaver" %% "zio-2-0-db-migration-aspect"  % testContainersVersion % IntegrationTest,
     ),
     testFrameworks := Seq(new TestFramework("zio.test.sbt.ZTestFramework")),
   )
