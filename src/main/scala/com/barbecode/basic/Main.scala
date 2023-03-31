@@ -14,6 +14,11 @@ object Main extends App {
   scala.Console.println("Hello Scala 3")
   scala.Console.println(program)
 
+  // the ZIO runtime is the one running the effect
+  Unsafe.unsafe { implicit unsafe =>
+    Runtime.default.unsafe.run(program)
+  }
+
 }
 
 object ZIOApp extends ZIOAppDefault {
