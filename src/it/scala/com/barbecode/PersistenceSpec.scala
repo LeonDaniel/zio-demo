@@ -15,8 +15,7 @@ object PersistenceSpec extends ZIOSpecDefault {
         url = ds.getConnection.getMetaData.getURL
         _  <- zio.Console.printLine(url)
       } yield assertTrue(url.contains("jdbc:mysql://localhost"))
-//      assertCompletes
     }
-  ) @@ DbMigrationAspect.migrate()() @@ TestAspect.sequential)
+  ) @@ DbMigrationAspect.migrate("db")() @@ TestAspect.sequential)
     .provideShared(ZMySQLContainer.Settings.default, ZMySQLContainer.live)
 }
