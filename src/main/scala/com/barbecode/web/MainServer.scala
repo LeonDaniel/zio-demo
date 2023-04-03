@@ -10,6 +10,9 @@ object MainServer extends ZIOAppDefault {
     case Method.GET -> _ / "text" => Response.text("Hello World!")
   }
 
-  override val run =
-    Server.serve(app).provide(Server.default)
+  override val run: ZIO[ZIOAppArgs & Scope, Any, Any] = {
+    val io: ZIO[Server, Nothing, Nothing] = Server.serve(app)
+    val f: ZIO[Any, Throwable, Nothing]   = io.provide(Server.default)
+    f
+  }
 }

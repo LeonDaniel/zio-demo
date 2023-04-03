@@ -24,3 +24,22 @@ object Main extends App {
 object ZIOApp extends ZIOAppDefault {
   override def run: ZIO[Any & ZIOAppArgs & Scope, Any, Any] = program
 }
+
+object Test extends ZIOAppDefault {
+  val program: ZIO[Any, Throwable, Unit] =
+    for {
+      s   <- Console.readLine("What's your age?\n")
+      age <- ZIO.attempt(s.toInt)
+      _   <- ZIO.fail(new Exception("You are not allowed to be here")).when(age < 18)
+      _   <- Console.printLine("Welcome!")
+    } yield ()
+
+  override def run: ZIO[Environment & ZIOAppArgs & Scope, Any, Any] =
+    val io: ZIO[Any, Nothing, Unit] = program.catchAll { e =>
+      e match {
+        case _: NumberFormatException => ZIO.debug("I need a number")
+        case _                        => ZIO.debug("I guess you are not eligible")
+      }
+    }
+      io.exitCode
+}
